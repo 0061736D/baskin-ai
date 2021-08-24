@@ -1,0 +1,11 @@
+{
+  "name": "baskin-ai",
+  "version": "1.0.0",
+  "description": "baskin robbins alcohole game",
+  "main": "index.js",
+  "author": "stapler",
+  "license": "MIT",
+  "scripts" : {
+    "start": "node index.js"
+  }
+}
