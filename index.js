@@ -1,5 +1,5 @@
 // number of people
-const NUM_PEOPLE = 3;
+const NUM_PEOPLE = 5;
 // max sequential call of number
 const MAX_CALL = 3;
 // end number of the game
@@ -18,7 +18,7 @@ function chooseRateOpt(loseRate, absTol = ABS_TOL) {
 }
 
 // arrayRotateReverse([1, 2, 3]) = [3, 1, 2]
-function arrayRotate(arr) {
+function rotateArray(arr) {
     const result = [];
     for (var i = 0; i<arr.length; i++) {
         result.push(arr[(i+arr.length-1)%arr.length]);
@@ -28,8 +28,8 @@ function arrayRotate(arr) {
 
 function _nextLoseProb(lookupMat, chooseStrategy=chooseRateOpt) {
     const chooseRate = chooseStrategy(lookupMat.map((vector) => vector[0]));
-    const result = arrayRotate(lookupMat).reduce((accum, vector, rowIndex) => {
-        const norm_vector = vector.map((value) => value*chooseRate[rowIndex]);
+    const result = lookupMat.reduce((accum, vector, rowIndex) => {
+        const norm_vector = rotateArray(vector).map((value) => value*chooseRate[rowIndex]);
         return accum.map((value, index) => value + norm_vector[index]);
     }, Array.from({length: NUM_PEOPLE}, ()=>0));
     return result;
@@ -51,7 +51,7 @@ function loseProb(number, chooseStrategy=chooseRateOpt) {
         const lookupMat = loseMatrix.slice(loseMatrix.length-MAX_CALL+1, loseMatrix.length);
         loseMatrix.push(_nextLoseProb(lookupMat, chooseStrategy));
     }
-    console.log(loseMatrix);
+    loseMatrix.forEach((val, ind) => console.log(END_NUMBER - ind, val));
     return loseMatrix[loseMatrix.length - 1];
 }
 
@@ -59,4 +59,4 @@ function winProb(n) {
     return loseProb(n).map(n=>1-n);
 }
 
-console.log(loseProb(30));
+console.log(loseProb(-1));
