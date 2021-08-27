@@ -6,6 +6,6 @@
   "author": "stapler",
   "license": "MIT",
   "scripts" : {
-    "start": "node index.js"
+    "start": "npx http-server"
   }
 }
